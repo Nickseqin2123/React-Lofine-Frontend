@@ -1,0 +1,115 @@
+body {
+	background: #434240;
+    font-family:'Oxygen', Arial, Helvetica, sans-serif; 
+    line-height:1; 
+    padding-bottom:85px;
+}
+
+
+.mainPanel .image {
+	width: 35%;
+	height: 90%;
+    box-shadow: 50px -13px 12px -2px rgba(0, 0, 0, 0.45);
+}
+
+.mainPanel {
+	transform: translate(44%, 35%);
+	width: 520px;
+	height: 251px;
+}
+
+.mainPanel .withUser {
+    position: absolute;
+	display: inline-flex;
+	flex-direction: column;
+	margin-top: -45%;
+	margin-left: 300px;
+}
+
+
+.mainPanel .withUser .namePerson h3{ /* Нужно будет сделать <style></style> когда offline на серый*/
+    position: absolute;
+    width: auto;
+    text-decoration: none;
+    display: inline-block;
+    color: #57bf2d;
+}
+
+
+.mainPanel .withUser .namePerson h3:after {
+	display: block;
+	position: absolute;
+	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
+	width: 0;/*задаём длинну линии до наведения курсора*/
+	height: 2px; /*задаём ширину линии*/
+	background-color: #57bf2d; /*задаём цвет линии*/
+	content: "";
+	transition: width 0.3s ease-out; /*задаём время анимации*/
+}
+
+.mainPanel .withUser .namePerson h3:hover:after,
+.mainPanel .withUser .namePerson h3:focus:after {
+	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
+}
+
+
+.mainPanel .withUser .namePerson h4{
+    margin-top: auto;
+    position: absolute;
+    width: auto;
+    display: inline-block;
+    text-decoration: none;
+    color: #7c55ea;
+}
+
+
+.mainPanel .withUser .namePerson h4:after {
+	display: block;
+	position: absolute;
+	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
+	width: 0;/*задаём длинну линии до наведения курсора*/
+	height: 2px; /*задаём ширину линии*/
+	background-color: #7c55ea; /*задаём цвет линии*/
+	content: "";
+	transition: width 0.3s ease-out; /*задаём время анимации*/
+}
+
+.mainPanel .withUser h4:hover:after,
+.mainPanel .withUser h4:focus:after {
+	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
+}
+
+
+.mainPanel .withUser .namePerson h2{
+    width: auto;
+    display: inline-block;
+    text-decoration: none;
+    color: rgb(199, 43, 191);
+}
+
+
+.mainPanel .withUser .namePerson h2:after {
+	display: block;
+	position: absolute;
+	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
+	width: 0;/*задаём длинну линии до наведения курсора*/
+	height: 2px; /*задаём ширину линии*/
+	background-color: rgb(199, 43, 191); /*задаём цвет линии*/
+	content: "";
+	transition: width 0.3s ease-out; /*задаём время анимации*/
+}
+
+.mainPanel .withUser .namePerson h2:hover:after,
+.mainPanel .withUser .namePerson h2:focus:after {
+	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
+}
+
+.choice {
+	position: auto;
+	display: inline-flex;
+	flex-direction: column;
+	margin-top: auto;
+	margin-left: 300px;
+  }
+
+
