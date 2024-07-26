@@ -4,6 +4,7 @@ import classes from '../styles/registerAndLogin.module.css'
 import { useState, useEffect } from "react"
 import { data } from "./data"
 import { Link } from "react-router-dom"
+import useAuth from "../../Hooks/useAuth"
 
 
 export default function RegisterUser() {
@@ -19,6 +20,9 @@ export default function RegisterUser() {
         date: '',
     })
 
+    const user = useAuth()
+
+    
     const change = fieldName => fieldValue => {
         setVal({
             ...val,

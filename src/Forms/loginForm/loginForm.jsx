@@ -3,6 +3,7 @@ import Button from '../../Button/button'
 import InputField from '../input/InputField'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import useAuth from '../../Hooks/useAuth'
 
 
 export default function LoginForm() {
@@ -17,7 +18,13 @@ export default function LoginForm() {
             [fieldName]: fieldValue
         })
     }
+    const user = useAuth()
     
+    function redirect_or_no (form) {
+        const resp = user.loginProvider(form)
+        console.log(resp)
+    }   
+
     useEffect(() => {
         document.querySelector('head').insertAdjacentHTML('beforeEnd', '<link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" />');
     }, [])
@@ -25,14 +32,14 @@ export default function LoginForm() {
     return (
         <>
             <div className={classes.parent}>
-                <form method="POST" className={classes.form}>
+                <form method="GET" className={classes.form} onSubmit={() => redirect_or_no(val)}>
                     <InputField type='text' placeholder='Логин' value={val.login} onChange={change('login')}/>
                     <InputField type='password' placeholder='Пароль' value={val.password} onChange={change('password')}/>
                     
                     <p>
                         <Link style={{ textDecoration: 'none', color: '#ffffff' }} to='/register'>Еще не зарегистрированы?</Link>
                     </p>
-                    <Button width='100%' href='/profile'>Войти</Button>
+                    <Button width='100%' type='submit'>Войти</Button>
                 </form>
             </div>
         </>

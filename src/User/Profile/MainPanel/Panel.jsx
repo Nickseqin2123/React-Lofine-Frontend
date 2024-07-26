@@ -6,6 +6,8 @@ import { useState } from 'react'
 
 export default function MainPanel() {
     const [val, setVal] = useState('none')
+    let cls = document.body.className
+    cls += ' active'
 
     return (
         <>

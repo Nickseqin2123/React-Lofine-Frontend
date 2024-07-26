@@ -1,26 +1,38 @@
 import { createContext, useState } from "react";
 
+import { login } from "../Requests/Login";
+import { register } from '../Requests/Register'
+
 
 export const AuthContext = createContext(null)
 
 
 export const AuthProvid = ({children}) => {
-    const [data, setData] = useState(null)
-    
-    
-    const login = (form) => {
+    const [user, setUser] = useState(null)
+
+
+    function loginProvider (form) {
+        let response = login(form)
         
+        if (typeof response === 'object') {
+            setUser(response)
+        } else {
+            return response
+        }
     }
 
-    const register = (form) => {
+    function registerProvider(form) {
+        let response = register(form)
 
+        if (typeof response === 'object') {
+            setUser(response)
+        } else {
+            return response
+        }
     }
 
-    const logout = (token) => {
 
-    }
-
-    const value = {data, login, register, logout}
+    const value = {user, loginProvider, registerProvider}
 
     return <AuthContext.Provider value={value}>
         {children}
