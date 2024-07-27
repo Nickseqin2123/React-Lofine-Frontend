@@ -1,47 +1,45 @@
-import axios from "axios"
+import axios from "axios";
 
 
-const getTokens = (form) => {
-    let error = {}
-    let tokens = {}
+const getTokens = async (form) => {
+    let error = null;
+    let tokens = {};
 
-    axios.post('http://127.0.0.1:8000/api/v8/token/login/', form).then(response => {
-        tokens[tokens] = response.data
-    }).catch(errorr => {
-        error[er] = errorr
-    })
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/v8/token/login/', form);
 
+        tokens = response.data;
+
+    } catch (errorr) {
+        error = errorr;
+    }
+    if (error) {
+        return 'Error. Check form please';
+    }
+
+    return tokens; 
+};
+
+export const login = async (form) => {
     
-    if (error.er) {
-        return 'Error. Check form please'
+    const nextMessage = await getTokens(form);
+
+    if (typeof nextMessage === 'string') {
+        return nextMessage; 
     }
 
-    const {access, refresh} = tokens.tokens
-    localStorage.setItem('access', `JWT ${access}`)
-    localStorage.setItem('refresh', refresh)
-}
-
-
-
-export const login = (form) => {
-    const nextMessage = getTokens(form)
-    let data = {}
-
-
-    if (!nextMessage) {
-        return nextMessage
-    }
+    const data = {};
 
     const auth = {
-        'Authorization': localStorage.getItem('access')
+        'Authorization': `JWT ${nextMessage.access}`
+    };
+
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/api/v8/auth/users/me', { headers: auth });
+        data.user = response.data; // Получаем информацию о пользователе
+    } catch (error) {
+        return 'Error fetching user data.';
     }
 
-
-    const req = axios.get('http://127.0.0.1:8000/api/v8/auth/users/me', {'headers': auth}).then(
-        response => {
-            data[user] = response.data
-        }
-    )
-
-    return data.user
-}
+    return [data.user, nextMessage]; // Возвращаем информацию о пользователе и токены
+};

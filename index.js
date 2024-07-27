@@ -54,53 +54,36 @@ import axios from "axios";
 //----------------------------------------------------------------------------
 
 
-const dataAuth = {
+const dataREg = {
+    "email": "grigorevnikita942@gmail.com",
     "username": "NikitaPups123",
-    "password": "ZXCPUDGE228"
-};
+    "password": "ZXCPUDGE228",
+    "telephone_number": "89199728150",
+    "first_name": "Никита",
+    "last_name": "ГРигорьев",
+    "tag_user": "userZXC",
+    "birthday": '2009-01-02'
+}
 
-const getTokens = async (form) => {
-    let error = null;
-    let tokens = {};
+
+export const register = async (form) => {
+    let data = {}
+    let error = null
 
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/v8/token/login/', form);
-
-        tokens = response.data;
-
-    } catch (errorr) {
-        error = errorr;
+        const response = await axios.post('http://127.0.0.1:8000/api/v8/auth/users/', form)
+        data = response.data
+    } 
+    catch (errorr) {
+        error = errorr
     }
+
     if (error) {
-        return 'Error. Check form please';
+        return 'Register error. Please, check form'
     }
 
-    return tokens; 
-};
+    return data
+}
 
-export const login = async (form) => {
-    
-    const nextMessage = await getTokens(form);
 
-    if (typeof nextMessage === 'string') {
-        return nextMessage; 
-    }
-
-    const data = {};
-
-    const auth = {
-        'Authorization': `JWT ${nextMessage.access}`
-    };
-
-    try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v8/auth/users/me', { headers: auth });
-        data.user = response.data; // Получаем информацию о пользователе
-    } catch (error) {
-        return 'Error fetching user data.';
-    }
-
-    return data.user; // Возвращаем информацию о пользователе
-};
-
-// Пример вызова
-login(dataAuth).then(message => console.log(message))
+register(dataREg).then(response => console.log(response)) // Используем then

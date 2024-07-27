@@ -1,19 +1,21 @@
 import axios from "axios"
 
 
-
-export const register = (form) => {
+export const register = async (form) => {
     let data = {}
-    let error = {}
+    let error = null
 
-    axios.post('http://127.0.0.1:8000/api/v8/auth/users/', form).then(response => {
-        data[res] = response.data
-    }).catch(errorr => {
-        error[er] = errorr
-    })
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/v8/auth/users/', form)
+        data = response.data
+    } 
+    catch (errorr) {
+        error = errorr
+    }
 
-    if (error.er) {
+    if (error) {
         return 'Register error. Please, check form'
     }
-    return data.res
+
+    return data
 }
