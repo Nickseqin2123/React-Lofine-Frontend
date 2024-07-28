@@ -2,7 +2,7 @@ import classes from '../styles/registerAndLogin.module.css'
 import Button from '../../Button/button'
 import InputField from '../input/InputField'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import useAuth from '../../Hooks/useAuth'
 
 
@@ -22,7 +22,11 @@ export default function LoginForm() {
     
     function redirect_or_no (form) {
         const resp = user.loginProvider(form)
-        console.log(resp)
+        if (resp) {
+            return <Navigate to={'/profile'}/>
+        }
+        return <Navigate to={'/register'}/>
+        
     }   
 
     useEffect(() => {

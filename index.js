@@ -54,36 +54,19 @@ import axios from "axios";
 //----------------------------------------------------------------------------
 
 
-const dataREg = {
-    "email": "grigorevnikita942@gmail.com",
-    "username": "NikitaPups123",
-    "password": "ZXCPUDGE228",
-    "telephone_number": "89199728150",
-    "first_name": "Никита",
-    "last_name": "ГРигорьев",
-    "tag_user": "userZXC",
-    "birthday": '2009-01-02'
-}
-
-
-export const register = async (form) => {
-    let data = {}
-    let error = null
-
+async function getUser(obj) {
+    const data = {}
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/v8/auth/users/', form)
-        data = response.data
-    } 
-    catch (errorr) {
-        error = errorr
+        const response = await axios.get('http://127.0.0.1:8000/api/v8/auth/users/me', { headers: obj });
+        data.user = response.data;
     }
-
-    if (error) {
-        return 'Register error. Please, check form'
+    catch (errror) {
+        console.log(errror.response.data.code)
     }
-
-    return data
+    
 }
 
 
-register(dataREg).then(response => console.log(response)) // Используем then
+console.log(await getUser({
+    'Authorization': `JWT qwdsd123412`
+}))

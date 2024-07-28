@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-export const register = async (form) => {
+export const getTokens = async (form) => {
     let data = {}
     let error = null
 

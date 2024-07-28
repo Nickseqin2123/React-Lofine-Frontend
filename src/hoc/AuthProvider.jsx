@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-import { login } from "../Requests/Login";
+import { login, getTokens } from "../Requests/Login";
 import { register } from '../Requests/Register'
 
 
@@ -11,24 +11,30 @@ export const AuthProvid = ({children}) => {
     const [user, setUser] = useState(null)
 
 
-    function loginProvider (form) {
-        let response = login(form)
+    async function loginProvider (form) {
+        const access = localStorage.getItem('access')
+        const refresh = localStorage.getItem('refresh')
+
         
-        if (typeof response === 'object') {
-            setUser(response)
-        } else {
-            return response
-        }
     }
 
-    function registerProvider(form) {
-        let response = register(form)
 
-        if (typeof response === 'object') {
-            setUser(response)
-        } else {
-            return response
-        }
+    async function registerProvider(form) {
+        const user_or_not = await register(form)
+
+        if (typeof user_or_not !== 'object') {
+            return false
+        } 
+        const {password, username} = form
+
+        const {access, refresh} = await getTokens({password: password, username: username})
+        
+        localStorage.setItem('access', `JWT ${access}`)
+        localStorage.setItem('refresh', refresh)
+
+        setUser(user_or_not)
+
+        return true
     }
 
 

@@ -1,7 +1,8 @@
 import axios from "axios";
+import { Refresh } from "./Refresh";
 
 
-const getTokens = async (form) => {
+export const getTokens = async (form) => {
     let error = null;
     let tokens = {};
 
@@ -20,26 +21,48 @@ const getTokens = async (form) => {
     return tokens; 
 };
 
-export const login = async (form) => {
-    
-    const nextMessage = await getTokens(form);
 
-    if (typeof nextMessage === 'string') {
-        return nextMessage; 
+
+const req = async (obj) => {
+    const data = {}
+
+    const response = await axios.get('http://127.0.0.1:8000/api/v8/auth/users/me', { headers: obj });
+    data.user = response.data;
+    
+    return data
+}
+
+
+export const login = async (form, tokens=false) => {
+    let tks = {}
+    let newTk = false
+
+    if (!tokens) {
+        tks = await getTokens(form)
+        newTk = true
+    } else {
+        tks = tokens
     }
 
-    const data = {};
 
     const auth = {
-        'Authorization': `JWT ${nextMessage.access}`
+        'Authorization': `JWT ${tks.access}`
     };
 
     try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v8/auth/users/me', { headers: auth });
-        data.user = response.data; // Получаем информацию о пользователе
-    } catch (error) {
-        return 'Error fetching user data.';
-    }
+        resp = await req(auth)
+        return [resp, tks? newTk: null]
 
-    return [data.user, nextMessage]; // Возвращаем информацию о пользователе и токены
+    } catch (error) {
+        if (error.response.data.code === 'token_not_valid') {
+            const {access, refresh} = await Refresh(tks.refresh)
+
+            auth['Authorization'] = `JWT ${access}`
+            
+            resp = await req(auth)
+            return [resp, {access: access, refresh: refresh}]
+        } else {
+            return false
+        }
+    }
 };
