@@ -52,21 +52,3 @@ import axios from "axios";
 // const reqREsponse = req.data
 // console.log(reqREsponse)
 //----------------------------------------------------------------------------
-
-
-async function getUser(obj) {
-    const data = {}
-    try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v8/auth/users/me', { headers: obj });
-        data.user = response.data;
-    }
-    catch (errror) {
-        console.log(errror.response.data.code)
-    }
-    
-}
-
-
-console.log(await getUser({
-    'Authorization': `JWT qwdsd123412`
-}))

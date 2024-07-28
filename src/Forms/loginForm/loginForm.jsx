@@ -2,11 +2,13 @@ import classes from '../styles/registerAndLogin.module.css'
 import Button from '../../Button/button'
 import InputField from '../input/InputField'
 import { useEffect, useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useAuth from '../../Hooks/useAuth'
 
 
 export default function LoginForm() {
+    const navi = useNavigate()
+
     const [val, setVal] = useState({
         login: '',
         password: ''
@@ -20,13 +22,9 @@ export default function LoginForm() {
     }
     const user = useAuth()
     
-    function redirect_or_no (form) {
-        const resp = user.loginProvider(form)
-        if (resp) {
-            return <Navigate to={'/profile'}/>
-        }
-        return <Navigate to={'/register'}/>
-        
+    async function redirect_or_no () {
+        const resp = await user.loginProvider(val)
+        // navi('/profile')
     }   
 
     useEffect(() => {
@@ -36,7 +34,7 @@ export default function LoginForm() {
     return (
         <>
             <div className={classes.parent}>
-                <form method="GET" className={classes.form} onSubmit={() => redirect_or_no(val)}>
+                <form method="POST" className={classes.form} onSubmit={() => redirect_or_no()}>
                     <InputField type='text' placeholder='Логин' value={val.login} onChange={change('login')}/>
                     <InputField type='password' placeholder='Пароль' value={val.password} onChange={change('password')}/>
                     
