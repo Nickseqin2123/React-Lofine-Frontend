@@ -27,50 +27,40 @@ export const AuthProvid = ({children}) => {
     async function loginProvider (form) {
         const {access, refresh} = getTokensFromLclStoarge()
 
-        if (access !== null && refresh !== null) {
-            const verify = await verifyJWT(access)
+        if (access && refresh) {
+            const resp = await login(access)
+            
+            if (!resp) {
+                localStorage.clear()
+                const newToks = Refresh(refresh)
+                const resp = await login(newToks.access)
+                if (resp) {
+                    setTokensForJWTStoarge(newToks.access, newToks.refresh)
+                    setUser(resp)
+                }
+            }
+            return resp
+        } else {
+            const data = await getTokens(form)
 
-            if (verify) {
+            if (data) {
+                const {access, refresh} = data
+
                 const resp = await login(access)
                 if (resp) {
                     setUser(resp)
-                    return resp
+                    setTokensForJWTStoarge(access, refresh)
                 }
+                return resp
+
             }
-
-            const newTokens = await Refresh(refresh)
-
-            if (newTokens) {
-                setTokensForJWTStoarge(newTokens.access, newTokens.refresh)
-                const resp = await login(newTokens.access)
-                if (resp) {
-                    setUser(resp)
-                    return resp
-                }
-            }
-
-        }
-
-        const tokens = await getTokens(form)
-
-        if (tokens) {
-            setTokensForJWTStoarge(tokens.access, tokens.refresh)
-            const resp = await login(tokens.access)
-            setUser(resp)
+            return data
         }
     }
 
 
     async function registerProvider(form) {
-        const resp = await register(form)
-
-        if (resp) {
-            const {username, password} = form
-            const {access, refresh} = getTokens({username: username, password: password})
-
-            setTokensForJWTStoarge(access, refresh)
-            setUser(resp)
-        }
+        
     }
 
 

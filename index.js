@@ -51,4 +51,21 @@ import axios from "axios";
 // const req = await axios.get('http://127.0.0.1:8000/api/v8/auth/users/me', {'headers': Test})
 // const reqREsponse = req.data
 // console.log(reqREsponse)
-//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------\
+
+const data = {
+    "email": "grigorevil.com",
+    "username": "NikitaPups123",
+    "password": "ZXCPUDGE228",
+    "telephone_number": "891",
+    "first_name": "Никита",
+    "last_name": "ГРигорьев",
+    "tag_user": "userZXC",
+    "birthday": '2009'
+}
+
+const dataAuth = {
+    "username": "NikitaPups123",
+    "password": "ZXCPUDGE228"
+}
+
