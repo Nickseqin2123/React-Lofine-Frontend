@@ -25,10 +25,9 @@ export default function LoginForm() {
     async function redirect_or_no () {
         const resp = await user.loginProvider(val)
         if (resp) {
-            return navi('/profile')
+            navi('/profile')
         }
-        console.log(resp)
-        return navi('login')
+        navi('/login')
     }   
 
     useEffect(() => {

@@ -32,13 +32,13 @@ export default function RegisterUser() {
         })
     }
 
-    async function redirect_or_no() {
+    async function redirect_or_no(event) {
+        event.preventDefault()
         const resp = await user.registerProvider(val)
         if (resp) {
             navi('/profile')
         }
-        console.log(resp)
-        return navi('register')
+        navi('/register')
     }
 
 
@@ -49,7 +49,7 @@ export default function RegisterUser() {
     return (
         <>
             <div className={classes.parent}>
-                <form method="POST" className={classes.form} onSubmit={() => redirect_or_no()}>
+                <form method="POST" className={classes.form} onSubmit={(event) => redirect_or_no(event)}>
                     {data.map(
                         (obj) => {
                             return <InputField key={obj.id} type={obj.type} placeholder={obj.placeholder} value={val[obj.nm]} onChange={change(obj.nm)}/>

@@ -23,51 +23,14 @@ const setTokensForJWTStoarge = (access, refresh) => {
 export const AuthProvid = ({children}) => {
     const [user, setUser] = useState(null)
 
-
     async function loginProvider (form) {
-        const {access, refresh} = getTokensFromLclStoarge()
-
-        if (access && refresh) {
-            const resp = await login(access)
-            
-            if (!resp) {
-                localStorage.clear()
-                const newToks = Refresh(refresh)
-
-                const resp = await login(newToks.access)
-
-                setTokensForJWTStoarge(newToks.access, newToks.refresh)
-                setUser(resp)
-            }
-            return resp
-        } else {
-            const data = await getTokens(form)
-
-            if (data) {
-                const {access, refresh} = data
-
-                const resp = await login(access)
-                if (resp) {
-                    setUser(resp)
-                    setTokensForJWTStoarge(access, refresh)
-                }
-                return resp
-
-            }
-            return data
-        }
+        // Неправильные ключи в  форме
+        
     }
 
 
     async function registerProvider(form) {
-        const data = await getTokens(form)
-
-        if (data.access && data.refresh) {
-            setTokensForJWTStoarge(data.access, data.refresh)
-            const user = await register(form)
-            setUser(user)
-        }
-        return data
+        // Неправильные ключи в  форме
     }
 
 

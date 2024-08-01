@@ -64,8 +64,21 @@ const data = {
     "birthday": '2009'
 }
 
-const dataAuth = {
-    "username": "NikitaPups123",
+const form = {
+    "username": "user1",
     "password": "ZXCPUDGE228"
 }
 
+
+export const getTokens = async (form) => {
+    try {
+        const tokens = await axios.post('http://127.0.0.1:8000/api/v8/token/login/', form)
+        return tokens.data
+    }
+    catch (error) {
+        return false
+    }
+}
+
+
+console.log(await getTokens(form))
