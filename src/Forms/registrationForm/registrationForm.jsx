@@ -34,7 +34,11 @@ export default function RegisterUser() {
 
     async function redirect_or_no() {
         const resp = await user.registerProvider(val)
-        return navi('/profile')? resp: navi('register')
+        if (resp) {
+            navi('/profile')
+        }
+        console.log(resp)
+        return navi('register')
     }
 
 

@@ -7,7 +7,7 @@ export const getTokens = async (form) => {
         return tokens
     }
     catch (error) {
-        return error.response.data
+        return false
     }
 }
 
@@ -22,6 +22,6 @@ export const login = async (access) => {
     }
 
     catch (error) {
-        return error.data
+        return false
     }
 }

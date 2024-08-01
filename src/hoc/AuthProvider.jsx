@@ -33,11 +33,11 @@ export const AuthProvid = ({children}) => {
             if (!resp) {
                 localStorage.clear()
                 const newToks = Refresh(refresh)
+
                 const resp = await login(newToks.access)
-                if (resp) {
-                    setTokensForJWTStoarge(newToks.access, newToks.refresh)
-                    setUser(resp)
-                }
+
+                setTokensForJWTStoarge(newToks.access, newToks.refresh)
+                setUser(resp)
             }
             return resp
         } else {
@@ -60,7 +60,14 @@ export const AuthProvid = ({children}) => {
 
 
     async function registerProvider(form) {
-        
+        const data = await getTokens(form)
+
+        if (data.access && data.refresh) {
+            setTokensForJWTStoarge(data.access, data.refresh)
+            const user = await register(form)
+            setUser(user)
+        }
+        return data
     }
 
 

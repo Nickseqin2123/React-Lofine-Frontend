@@ -8,14 +8,6 @@ export const register = async (form) => {
     }
 
     catch (error) {
-        return error.response.data
+        return false
     }
 }
-
-// const a = await register(data)
-
-//  for (let i in a) {
-//      for (let f of a[i]) {
-//          console.log(`Ключ: ${i} Ошибка: ${f}`)
-//      }
-//  }
