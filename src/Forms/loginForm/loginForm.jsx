@@ -4,6 +4,7 @@ import InputField from '../input/InputField'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuth from '../../Hooks/useAuth'
+import axios from 'axios'
 
 
 export default function LoginForm() {
@@ -23,11 +24,9 @@ export default function LoginForm() {
     const user = useAuth()
     
     async function redirect_or_no () {
-        const resp = await user.loginProvider(val)
-        if (resp) {
-            navi('/profile')
-        }
-        navi('/login')
+        
+        return navi('/register')
+        
     }   
 
     useEffect(() => {
@@ -37,14 +36,15 @@ export default function LoginForm() {
     return (
         <>
             <div className={classes.parent}>
-                <form method="POST" className={classes.form} onSubmit={() => redirect_or_no()}>
+                <form method="POST" className={classes.form} onSubmit={redirect_or_no}>
                     <InputField type='text' placeholder='Логин' value={val.login} onChange={change('login')}/>
                     <InputField type='password' placeholder='Пароль' value={val.password} onChange={change('password')}/>
                     
                     <p>
                         <Link style={{ textDecoration: 'none', color: '#ffffff' }} to='/register'>Еще не зарегистрированы?</Link>
                     </p>
-                    <Button width='100%' type='submit'>Войти</Button>
+                    {/* <Button width='100%' type='submit'>Войти</Button> */}
+                    <button type='submit'>Войти</button>
                 </form>
             </div>
         </>
